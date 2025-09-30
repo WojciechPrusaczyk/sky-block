@@ -370,15 +370,19 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Places UI target sprite on targeted block
     /// </summary>
-    private void BlockTarget( Vector3Int targetPosition)
+    private void BlockTarget(Vector3Int targetOffset)
     {
         if (AimDistance < maxRayLength)
             playerBlockTargetObject.SetActive(true);
         else
+        {
             playerBlockTargetObject.SetActive(false);
+            return;
+        }
 
-        //
-        playerBlockTargetObject.transform.localPosition = targetPosition;
+        Vector3Int cell = playerPosition + targetOffset;
+        Vector3 worldPos = baseTilemap.GetCellCenterWorld(cell);
+        playerBlockTargetObject.transform.position = worldPos;
     }
 
     #endregion
