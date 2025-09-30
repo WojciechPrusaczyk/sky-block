@@ -48,6 +48,9 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Block position player is looking at")]
     public Vector3Int targetPosition;
 
+    [Tooltip("Max ray length to show block placing target.")]
+    public float maxRayLength = 2.0f;
+
     [Header("Debug")]
     [Tooltip("Whether to draw debug gizmos for the aim ray.")]
     public bool drawGizmo = true;
@@ -78,6 +81,11 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public float AimAngleDeg;
 
+    /// <summary>
+    /// Aim distance in world units from the player position to AimPoint on the XY plane.
+    /// </summary>
+    public float AimDistance;
+
     /// <summary>Current facing direction of the player (Up, Down, Left, Right).</summary>
     public Enums.Direction playerDirection = Enums.Direction.Down;
 
@@ -87,6 +95,8 @@ public class PlayerController : MonoBehaviour
     private GroundDetector groundDetector;
     private Tilemap baseTilemap;
     private Tilemap objectsTilemap;
+    private GameObject playerBlockTargetObject;
+    private SpriteRenderer playerBlockTargetSpriteRenderer;
 
     #region Unity Lifecycle
 
@@ -96,6 +106,14 @@ public class PlayerController : MonoBehaviour
         rb.gravityScale = 0f;
         rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         groundDetector = GetComponentInChildren<GroundDetector>();
+        playerBlockTargetObject = gameObject.transform.Find("PlayerBlockTarget").gameObject;
+
+        if (playerBlockTargetObject)
+        {
+            playerBlockTargetSpriteRenderer = playerBlockTargetObject.GetComponent<SpriteRenderer>();
+            playerBlockTargetSpriteRenderer.sprite = blockTargetSprite;
+            playerBlockTargetObject.SetActive(false);
+        }
     }
 
     private void OnEnable()
@@ -240,7 +258,23 @@ public class PlayerController : MonoBehaviour
         else
         {
             HasAim = false;
-            // keep previous AimAngleDeg or set to 0 — here we keep it
+        }
+
+        // Calculating ray length
+        if (plane.Raycast(ray, out float hitDist))
+        {
+            AimPoint = ray.GetPoint(hitDist);
+            HasAim = true;
+            Vector2 toAim = (Vector2)(AimPoint - transform.position);
+            float ang = Mathf.Atan2(toAim.x, toAim.y) * Mathf.Rad2Deg;
+            if (ang < 0f) ang += 360f;
+            AimAngleDeg = ang;
+            AimDistance = toAim.magnitude;
+        }
+        else
+        {
+            HasAim = false;
+            AimDistance = 0f;
         }
     }
 
@@ -259,6 +293,7 @@ public class PlayerController : MonoBehaviour
              * [ ][ ][ ]
              */
             targetPosition = new Vector3Int(playerPosition.x, playerPosition.y+1, playerPosition.z);
+            BlockTarget( new Vector3Int(0, 1, playerPosition.z) );
         }
         else if (AimAngleDeg >= 22.5f && AimAngleDeg < 67.5f)
         {
@@ -268,6 +303,7 @@ public class PlayerController : MonoBehaviour
              * [ ][ ][ ]
              */
             targetPosition = new Vector3Int(playerPosition.x+1, playerPosition.y+1, playerPosition.z);
+            BlockTarget( new Vector3Int(1, 1, playerPosition.z) );
         }
         else if (AimAngleDeg >= 67.5f && AimAngleDeg < 112.5f)
         {
@@ -277,6 +313,7 @@ public class PlayerController : MonoBehaviour
              * [ ][ ][ ]
              */
             targetPosition = new Vector3Int(playerPosition.x+1, playerPosition.y, playerPosition.z);
+            BlockTarget( new Vector3Int(1, 0, playerPosition.z) );
         }
         else if (AimAngleDeg >= 112.5f && AimAngleDeg < 157.5f)
         {
@@ -286,6 +323,7 @@ public class PlayerController : MonoBehaviour
              * [ ][ ][x]
              */
             targetPosition = new Vector3Int(playerPosition.x+1, playerPosition.y-1, playerPosition.z);
+            BlockTarget( new Vector3Int(1, -1, playerPosition.z) );
         }
         else if (AimAngleDeg >= 157.5f && AimAngleDeg < 202.5f)
         {
@@ -295,6 +333,7 @@ public class PlayerController : MonoBehaviour
              * [ ][x][ ]
              */
             targetPosition = new Vector3Int(playerPosition.x, playerPosition.y-1, playerPosition.z);
+            BlockTarget( new Vector3Int(0, -1, playerPosition.z) );
         }
         else if (AimAngleDeg >= 202.5f && AimAngleDeg < 247.5f)
         {
@@ -304,6 +343,7 @@ public class PlayerController : MonoBehaviour
              * [x][ ][ ]
              */
             targetPosition = new Vector3Int(playerPosition.x-1, playerPosition.y-1, playerPosition.z);
+            BlockTarget( new Vector3Int(-1, -1, playerPosition.z) );
         }
         else if (AimAngleDeg >= 247.5f && AimAngleDeg < 292.5f)
         {
@@ -313,6 +353,7 @@ public class PlayerController : MonoBehaviour
              * [ ][ ][ ]
              */
             targetPosition = new Vector3Int(playerPosition.x-1, playerPosition.y, playerPosition.z);
+            BlockTarget( new Vector3Int(-1, 0, playerPosition.z) );
         }
         else if (AimAngleDeg >= 292.5f && AimAngleDeg < 337.5f)
         {
@@ -322,6 +363,7 @@ public class PlayerController : MonoBehaviour
              * [ ][ ][ ]
              */
             targetPosition = new Vector3Int(playerPosition.x-1, playerPosition.y+1, playerPosition.z);
+            BlockTarget( new Vector3Int(-1, 1, playerPosition.z) );
         }
     }
 
@@ -330,7 +372,13 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void BlockTarget( Vector3Int targetPosition)
     {
+        if (AimDistance < maxRayLength)
+            playerBlockTargetObject.SetActive(true);
+        else
+            playerBlockTargetObject.SetActive(false);
 
+        //
+        playerBlockTargetObject.transform.localPosition = targetPosition;
     }
 
     #endregion
