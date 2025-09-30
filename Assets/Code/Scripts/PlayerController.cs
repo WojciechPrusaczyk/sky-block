@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
     public Sprite blockTargetSprite;
 
     [Tooltip("Block position player is looking at")]
-    public Vector3Int blockPosition;
+    public Vector3Int targetPosition;
 
     [Header("Debug")]
     [Tooltip("Whether to draw debug gizmos for the aim ray.")]
@@ -254,12 +254,83 @@ public class PlayerController : MonoBehaviour
         if ((AimAngleDeg >= 337.5f && AimAngleDeg <= 360) || (AimAngleDeg >= 0f && AimAngleDeg < 22.5f))
         {
             /*
-             * [][x][]
-             * [][][]
-             * [][][]
+             * [ ][x][ ]
+             * [ ][ ][ ]
+             * [ ][ ][ ]
              */
-            blockPosition = new Vector3Int(playerPosition.x, playerPosition.y+1, playerPosition.z);
+            targetPosition = new Vector3Int(playerPosition.x, playerPosition.y+1, playerPosition.z);
         }
+        else if (AimAngleDeg >= 22.5f && AimAngleDeg < 67.5f)
+        {
+            /*
+             * [ ][ ][x]
+             * [ ][ ][ ]
+             * [ ][ ][ ]
+             */
+            targetPosition = new Vector3Int(playerPosition.x+1, playerPosition.y+1, playerPosition.z);
+        }
+        else if (AimAngleDeg >= 67.5f && AimAngleDeg < 112.5f)
+        {
+            /*
+             * [ ][ ][ ]
+             * [ ][ ][x]
+             * [ ][ ][ ]
+             */
+            targetPosition = new Vector3Int(playerPosition.x+1, playerPosition.y, playerPosition.z);
+        }
+        else if (AimAngleDeg >= 112.5f && AimAngleDeg < 157.5f)
+        {
+            /*
+             * [ ][ ][ ]
+             * [ ][ ][ ]
+             * [ ][ ][x]
+             */
+            targetPosition = new Vector3Int(playerPosition.x+1, playerPosition.y-1, playerPosition.z);
+        }
+        else if (AimAngleDeg >= 157.5f && AimAngleDeg < 202.5f)
+        {
+            /*
+             * [ ][ ][ ]
+             * [ ][ ][ ]
+             * [ ][x][ ]
+             */
+            targetPosition = new Vector3Int(playerPosition.x, playerPosition.y-1, playerPosition.z);
+        }
+        else if (AimAngleDeg >= 202.5f && AimAngleDeg < 247.5f)
+        {
+            /*
+             * [ ][ ][ ]
+             * [ ][ ][ ]
+             * [x][ ][ ]
+             */
+            targetPosition = new Vector3Int(playerPosition.x-1, playerPosition.y-1, playerPosition.z);
+        }
+        else if (AimAngleDeg >= 247.5f && AimAngleDeg < 292.5f)
+        {
+            /*
+             * [ ][ ][ ]
+             * [x][ ][ ]
+             * [ ][ ][ ]
+             */
+            targetPosition = new Vector3Int(playerPosition.x-1, playerPosition.y, playerPosition.z);
+        }
+        else if (AimAngleDeg >= 292.5f && AimAngleDeg < 337.5f)
+        {
+            /*
+             * [x][ ][ ]
+             * [ ][ ][ ]
+             * [ ][ ][ ]
+             */
+            targetPosition = new Vector3Int(playerPosition.x-1, playerPosition.y+1, playerPosition.z);
+        }
+    }
+
+    /// <summary>
+    /// Places UI target sprite on targeted block
+    /// </summary>
+    private void BlockTarget( Vector3Int targetPosition)
+    {
+
     }
 
     #endregion
