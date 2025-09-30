@@ -90,6 +90,94 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2081942319698434089
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8819787668039023379}
+  m_Layer: 3
+  m_Name: PlayerBlockTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8819787668039023379
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081942319698434089}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6442098701767103181}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2859711790262769645
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 646042546476713599}
+  - component: {fileID: 1460236425953842775}
+  m_Layer: 3
+  m_Name: BuildingController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &646042546476713599
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2859711790262769645}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6442098701767103181}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1460236425953842775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2859711790262769645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9952c890536cd8948bf4d769022af22e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  gridSpacing: 1
+  groundTag: Ground
+  cells:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  drawGizmos: 1
 --- !u!1 &3127310752291729289
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,7 +236,7 @@ MonoBehaviour:
     LookAtTarget: {fileID: 6442098701767103181}
     CustomLookAtTarget: 1
   Lens:
-    FieldOfView: 72.06156
+    FieldOfView: 77.32661
     OrthographicSize: 7
     NearClipPlane: 0.3
     FarClipPlane: 100
@@ -230,6 +318,8 @@ Transform:
   - {fileID: 347635716136603818}
   - {fileID: 5022035496210692673}
   - {fileID: 2271297258092951170}
+  - {fileID: 646042546476713599}
+  - {fileID: 8819787668039023379}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5657932947068453164
@@ -246,10 +336,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   maxSpeed: 5
   acceleration: 20
-  deceleration: 30
+  deceleration: 20
   inputDeadzone: 0.1
+  device: 0
   moveAction: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  cam: {fileID: 0}
+  aimPlaneZOffset: 0
+  blockTargetSprite: {fileID: 21300000, guid: 697ac32668c83624a8cfc385fd44cf5a, type: 3}
+  drawGizmo: 1
+  gizmoPointRadius: 0.06
+  checkDistance: 3
   isGrounded: 0
+  spawnPoint: {fileID: 0}
+  AimAngleDeg: 111.272804
+  playerDirection: 0
 --- !u!50 &8253246178606321576
 Rigidbody2D:
   serializedVersion: 5
@@ -348,13 +448,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7490164967169021319}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.008726225, y: 0.008726225, z: -0.0000761528, w: 0.9999238}
+  m_LocalRotation: {x: 0, y: 0, z: 0.008726558, w: 0.999962}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6442098701767103181}
-  m_LocalEulerAnglesHint: {x: 1, y: 1, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1}
 --- !u!114 &4075762959285008904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,4 +467,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aa706d388a26444e90f4b5e8618362a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  checkDistance: 3
+  checkRange: 0.35
