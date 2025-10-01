@@ -4421,6 +4421,14 @@ PrefabInstance:
       propertyPath: spawnPoint
       value: 
       objectReference: {fileID: 705854428}
+    - target: {fileID: 5657932947068453164, guid: 1162ea2df763637499749dbd7fe6d633, type: 3}
+      propertyPath: blockPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657932947068453164, guid: 1162ea2df763637499749dbd7fe6d633, type: 3}
+      propertyPath: 'blockPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2568187234612729721, guid: fa1539b4492f3d44bb2e63fd334eb874, type: 3}
     - target: {fileID: 6442098701767103181, guid: 1162ea2df763637499749dbd7fe6d633, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.48

@@ -399,8 +399,8 @@ MonoBehaviour:
   inputDeadzone: 0.1
   device: 0
   moveAction: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  action: {fileID: 0}
-  additionalAction: {fileID: 0}
+  action: {fileID: 1120369429361536294, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  additionalAction: {fileID: 1781555164194001046, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   playerPosition: {x: 0, y: 0, z: 0}
   cam: {fileID: 0}
   aimPlaneZOffset: 0
@@ -409,6 +409,9 @@ MonoBehaviour:
   maxRayLength: 2
   drawGizmo: 1
   gizmoPointRadius: 0.06
+  blockPrefabs:
+  - {fileID: 2568187234612729721, guid: fa1539b4492f3d44bb2e63fd334eb874, type: 3}
+  selectedSlot: 0
   checkDistance: 3
   isGrounded: 0
   spawnPoint: {fileID: 0}

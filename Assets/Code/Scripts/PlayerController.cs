@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -58,6 +60,13 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Radius of the debug gizmo sphere at the aim point.")]
     public float gizmoPointRadius = 0.06f;
 
+    [Header("Building")]
+    [Tooltip("Prefabs of placeable blocks (set in Inspector).")]
+    public List<GameObject> blockPrefabs = new List<GameObject>();
+
+    [Tooltip("Selected hotbar slot (index into blockPrefabs).")]
+    public int selectedSlot = 0;
+
     [Header("Other")]
     [Tooltip("Ground check distance (not used directly in this script).")]
     public float checkDistance = 3f;
@@ -93,10 +102,17 @@ public class PlayerController : MonoBehaviour
     private Vector2 input;
     private Vector2 velocity;
     private GroundDetector groundDetector;
+
     private Tilemap baseTilemap;
+    private BlocksManager baseTilemapBlocksManager;
+
     private Tilemap objectsTilemap;
+    private BlocksManager objectsTilemapBlocksManager;
+
     private GameObject playerBlockTargetObject;
     private SpriteRenderer playerBlockTargetSpriteRenderer;
+    private bool lmbClicked = false;
+    private bool rmbClicked = false;
 
     #region Unity Lifecycle
 
@@ -114,19 +130,6 @@ public class PlayerController : MonoBehaviour
             playerBlockTargetSpriteRenderer.sprite = blockTargetSprite;
             playerBlockTargetObject.SetActive(false);
         }
-    }
-
-    private void OnEnable()
-    {
-        if (moveAction != null)
-        {
-            if (device == Enums.Device.PC)
-            {
-                var map = moveAction.action.actionMap;
-                if (map != null) map.bindingMask = InputBinding.MaskByGroup("Keyboard&Mouse");
-            }
-            moveAction.action.Enable();
-        }
 
         var mapObject = GameObject.Find("Map");
         if (mapObject)
@@ -140,12 +143,49 @@ public class PlayerController : MonoBehaviour
                 else
                     Debug.LogError("Not found 'BaseTilemap' in gameobject tree.");
 
+                if (baseTilemapObject)
+                    baseTilemapBlocksManager = baseTilemapObject.GetComponent<BlocksManager>();
+
                 var objectsTilemapObject = gridObject.transform.Find("ObjectsTilemap");
                 if (objectsTilemapObject)
                     objectsTilemap = objectsTilemapObject.GetComponent<Tilemap>();
                 else
                     Debug.LogError("Not found 'ObjectsTilemap' in gameobject tree.");
+
+                if (objectsTilemapObject)
+                    objectsTilemapBlocksManager = objectsTilemapObject.GetComponent<BlocksManager>();
             }
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (moveAction != null)
+        {
+            if (device == Enums.Device.PC)
+            {
+                var map = moveAction.action.actionMap;
+                if (map != null) map.bindingMask = InputBinding.MaskByGroup("Keyboard&Mouse");
+            }
+            moveAction.action.Enable();
+        }
+        if (action != null)
+        {
+            if (device == Enums.Device.PC)
+            {
+                var map = action.action.actionMap;
+                if (map != null) map.bindingMask = InputBinding.MaskByGroup("Keyboard&Mouse");
+            }
+            action.action.Enable();
+        }
+        if (additionalAction != null)
+        {
+            if (device == Enums.Device.PC)
+            {
+                var map = additionalAction.action.actionMap;
+                if (map != null) map.bindingMask = InputBinding.MaskByGroup("Keyboard&Mouse");
+            }
+            additionalAction.action.Enable();
         }
     }
 
@@ -156,6 +196,18 @@ public class PlayerController : MonoBehaviour
             var map = moveAction.action.actionMap;
             if (map != null) map.bindingMask = default;
             moveAction.action.Disable();
+        }
+        if (action != null)
+        {
+            var map = action.action.actionMap;
+            if (map != null) map.bindingMask = default;
+            action.action.Disable();
+        }
+        if (additionalAction != null)
+        {
+            var map = additionalAction.action.actionMap;
+            if (map != null) map.bindingMask = default;
+            additionalAction.action.Disable();
         }
     }
 
@@ -186,6 +238,8 @@ public class PlayerController : MonoBehaviour
         playerPosition = baseTilemap.WorldToCell(transform.position);
 
         DefineBlock();
+
+        HandleBlockPlacement();
     }
 
     private void FixedUpdate()
@@ -372,7 +426,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void BlockTarget(Vector3Int targetOffset)
     {
-        if (AimDistance < maxRayLength)
+        if (AimDistance <= maxRayLength)
             playerBlockTargetObject.SetActive(true);
         else
         {
@@ -383,6 +437,41 @@ public class PlayerController : MonoBehaviour
         Vector3Int cell = playerPosition + targetOffset;
         Vector3 worldPos = baseTilemap.GetCellCenterWorld(cell);
         playerBlockTargetObject.transform.position = worldPos;
+    }
+
+    private void HandleBlockPlacement()
+    {
+        if (AimDistance > maxRayLength) return;
+
+        bool lmbClickedNow = action != null && action.action.ReadValue<float>() >= 0.5f;
+        bool rmbClickedNow = additionalAction != null && additionalAction.action.ReadValue<float>() >= 0.5f;
+
+        // Player clicked left mouse button
+        if (lmbClickedNow && !lmbClicked)
+        {
+            if (blockPrefabs == null || blockPrefabs.Count == 0)
+                Debug.LogWarning("blockPrefabs list is empty.");
+            else if (selectedSlot < 0 || selectedSlot >= blockPrefabs.Count || blockPrefabs[selectedSlot] == null)
+                Debug.LogWarning($"Selected slot {selectedSlot} is invalid or prefab is null.");
+            else
+            {
+                baseTilemapBlocksManager.PlaceBlock(targetPosition, blockPrefabs[selectedSlot]);
+            }
+        }
+        // Player clicked right mouse button
+        if (rmbClickedNow && !rmbClicked)
+        {
+            if (blockPrefabs == null || blockPrefabs.Count == 0)
+                Debug.LogWarning("blockPrefabs list is empty.");
+            else if (selectedSlot < 0 || selectedSlot >= blockPrefabs.Count || blockPrefabs[selectedSlot] == null)
+                Debug.LogWarning($"Selected slot {selectedSlot} is invalid or prefab is null.");
+            else
+            {
+                baseTilemapBlocksManager.DestroyBlock(targetPosition, blockPrefabs[selectedSlot]);
+            }
+        }
+        lmbClicked = lmbClickedNow;
+        rmbClicked = rmbClickedNow;
     }
 
     #endregion
