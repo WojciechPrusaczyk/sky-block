@@ -11,4 +11,9 @@ public class Enums : MonoBehaviour
     {
         PC, Console
     }
+
+    public enum ItemType
+    {
+        BaseBlock, TopBlock, Tool, Other
+    }
 }

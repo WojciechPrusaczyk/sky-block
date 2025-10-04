@@ -60,13 +60,6 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Radius of the debug gizmo sphere at the aim point.")]
     public float gizmoPointRadius = 0.06f;
 
-    [Header("Building")]
-    [Tooltip("Prefabs of placeable blocks (set in Inspector).")]
-    public List<GameObject> blockPrefabs = new List<GameObject>();
-
-    [Tooltip("Selected hotbar slot (index into blockPrefabs).")]
-    public int selectedSlot = 0;
-
     [Header("Other")]
     [Tooltip("Ground check distance (not used directly in this script).")]
     public float checkDistance = 3f;
@@ -113,6 +106,9 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer playerBlockTargetSpriteRenderer;
     private bool lmbClicked = false;
     private bool rmbClicked = false;
+    private int selectedSlot = 0;
+
+    private Equipment eq;
 
     #region Unity Lifecycle
 
@@ -156,6 +152,10 @@ public class PlayerController : MonoBehaviour
                     objectsTilemapBlocksManager = objectsTilemapObject.GetComponent<BlocksManager>();
             }
         }
+
+        eq = gameObject.GetComponent<Equipment>();
+        if (!eq)
+            Debug.LogError("Not found equipment component in Player GameObject.");
     }
 
     private void OnEnable()
@@ -240,6 +240,18 @@ public class PlayerController : MonoBehaviour
         DefineBlock();
 
         HandleBlockPlacement();
+
+        // Selected slot change
+        if (Mouse.current != null)
+        {
+            float scrollY = Mouse.current.scroll.ReadValue().y;
+
+            if (Mathf.Abs(scrollY) > 0.01f)
+            {
+                int steps = scrollY > 0 ? 1 : -1;
+                ChangeSelectedSlot(steps);
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -449,25 +461,21 @@ public class PlayerController : MonoBehaviour
         // Player clicked left mouse button
         if (lmbClickedNow && !lmbClicked)
         {
-            if (blockPrefabs == null || blockPrefabs.Count == 0)
-                Debug.LogWarning("blockPrefabs list is empty.");
-            else if (selectedSlot < 0 || selectedSlot >= blockPrefabs.Count || blockPrefabs[selectedSlot] == null)
+            if (selectedSlot < 0 || selectedSlot >= eq.slots.Count || eq.GetItemAtSelectedSlot() == null)
                 Debug.LogWarning($"Selected slot {selectedSlot} is invalid or prefab is null.");
             else
             {
-                baseTilemapBlocksManager.PlaceBlock(targetPosition, blockPrefabs[selectedSlot]);
+                baseTilemapBlocksManager.PlaceBlock(targetPosition, eq.GetItemAtSelectedSlot().BlockGameObject);
             }
         }
         // Player clicked right mouse button
         if (rmbClickedNow && !rmbClicked)
         {
-            if (blockPrefabs == null || blockPrefabs.Count == 0)
-                Debug.LogWarning("blockPrefabs list is empty.");
-            else if (selectedSlot < 0 || selectedSlot >= blockPrefabs.Count || blockPrefabs[selectedSlot] == null)
+            if (selectedSlot < 0 || selectedSlot >= eq.slots.Count || eq.GetItemAtSelectedSlot() == null)
                 Debug.LogWarning($"Selected slot {selectedSlot} is invalid or prefab is null.");
             else
             {
-                baseTilemapBlocksManager.DestroyBlock(targetPosition, blockPrefabs[selectedSlot]);
+                baseTilemapBlocksManager.DestroyBlock(targetPosition, eq.GetItemAtSelectedSlot().BlockGameObject);
             }
         }
         lmbClicked = lmbClickedNow;
@@ -491,6 +499,15 @@ public class PlayerController : MonoBehaviour
             playerDirection = dir.x > 0 ? Enums.Direction.Right : Enums.Direction.Left;
         else
             playerDirection = dir.y > 0 ? Enums.Direction.Up : Enums.Direction.Down;
+    }
+
+    private void ChangeSelectedSlot(int delta)
+    {
+        if (eq.slots == null || eq.slots.Count == 0) return;
+
+        int n = eq.slots.Count;
+        selectedSlot = ((selectedSlot + delta) % n + n) % n;
+        eq.SelectItemAtSlot(selectedSlot);
     }
 
     #endregion

@@ -1,0 +1,41 @@
+:root {
+}
+
+.itemSlot {
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+}
+
+.itemSlotBackground {
+    position: absolute;
+    background-image: url("project://database/Assets/Art/UserInterface/ItemBackground.png?fileID=2800000&guid=c5e79fff6e5698844acb8b9d7806e528&type=3#ItemBackground");
+    bottom: 0;
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: ease;
+}
+
+.itemSlotImage {
+    background-image: url("project://database/Assets/Art/Blocks/Grass/GrassBlock.png?fileID=2800000&guid=ac97efa613c8a9048946db7805fb32cd&type=3#GrassBlock");
+    margin-bottom: 10px;
+    bottom: 0;
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: ease;
+}
+
+.active .itemSlotImage {
+    bottom: 8px;
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: ease;
+}
+
+.active .itemSlotBackground {
+    bottom: 8px;
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: ease;
+    background-image: url("project://database/Assets/Art/UserInterface/ItemBackgroundSelected.png?fileID=2800000&guid=8de6b5032bce9d94bb7ee502ad618d58&type=3#ItemBackgroundSelected");
+}
