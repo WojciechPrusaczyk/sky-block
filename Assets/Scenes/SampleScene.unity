@@ -499,7 +499,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8590128073170003159, guid: 87788315fb8f555408aa3069b73d80a6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.5
+      value: -0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8590128073170003159, guid: 87788315fb8f555408aa3069b73d80a6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4454,6 +4454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   itemBackground: {fileID: 0}
   selectedItemBackground: {fileID: 0}
+  equipment: {fileID: 0}
 --- !u!1 &1973327791
 GameObject:
   m_ObjectHideFlags: 0
