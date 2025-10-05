@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 640986566713488313}
   - component: {fileID: 1502266661137659821}
+  - component: {fileID: 4223015650356728350}
   m_Layer: 0
   m_Name: Grass
   m_TagString: Ground
@@ -55,6 +56,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4223015650356728350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2568187234612729721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efa0ba555da702347a923cff82bbb1ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  itemData: {fileID: 11400000, guid: 749e4c3b64bc144479df2f76faa69aeb, type: 2}
 --- !u!1 &5044845091784692279
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +149,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: dfd24ec7b0493a640a6c91cd1b934945, type: 3}
-  m_Color: {r: 0.554717, g: 0.44422078, b: 0.23339976, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -225,7 +239,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 0bb2f37592d19854cbfb2e05704d34e2, type: 3}
-  m_Color: {r: 0.554717, g: 0.44422078, b: 0.23339976, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

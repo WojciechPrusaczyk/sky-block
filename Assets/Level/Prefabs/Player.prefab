@@ -469,6 +469,7 @@ GameObject:
   - component: {fileID: 5657932947068453164}
   - component: {fileID: 8253246178606321576}
   - component: {fileID: 4384677290687073076}
+  - component: {fileID: 7812793698123265467}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -524,21 +525,11 @@ MonoBehaviour:
   maxRayLength: 2
   drawGizmo: 1
   gizmoPointRadius: 0.06
-  blockPrefabs:
-  - {fileID: 2568187234612729721, guid: 68d21e7070d07ef41a95dae3fcd3cce3, type: 3}
-  - {fileID: 2568187234612729721, guid: 68d21e7070d07ef41a95dae3fcd3cce3, type: 3}
-  - {fileID: 2568187234612729721, guid: 68d21e7070d07ef41a95dae3fcd3cce3, type: 3}
-  - {fileID: 2568187234612729721, guid: 68d21e7070d07ef41a95dae3fcd3cce3, type: 3}
-  - {fileID: 2568187234612729721, guid: 68d21e7070d07ef41a95dae3fcd3cce3, type: 3}
-  - {fileID: 2568187234612729721, guid: 68d21e7070d07ef41a95dae3fcd3cce3, type: 3}
-  - {fileID: 2568187234612729721, guid: 68d21e7070d07ef41a95dae3fcd3cce3, type: 3}
-  - {fileID: 2568187234612729721, guid: 68d21e7070d07ef41a95dae3fcd3cce3, type: 3}
-  selectedSlot: 0
   checkDistance: 3
   isGrounded: 0
   spawnPoint: {fileID: 0}
-  AimAngleDeg: 257.57407
-  AimDistance: 12.782797
+  AimAngleDeg: 240.50748
+  AimDistance: 8.099203
   playerDirection: 0
 --- !u!50 &8253246178606321576
 Rigidbody2D:
@@ -613,6 +604,29 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &7812793698123265467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7323898320295679589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbdf6d880746f1545b8dd1cd1428dbc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  selectedSlot: 0
+  slots:
+  - {fileID: 11400000, guid: 749e4c3b64bc144479df2f76faa69aeb, type: 2}
+  - {fileID: 11400000, guid: e4645fc07edbefa40b9e3a2f855776d4, type: 2}
+  - {fileID: 11400000, guid: e4645fc07edbefa40b9e3a2f855776d4, type: 2}
+  - {fileID: 11400000, guid: e4645fc07edbefa40b9e3a2f855776d4, type: 2}
+  - {fileID: 11400000, guid: 749e4c3b64bc144479df2f76faa69aeb, type: 2}
+  - {fileID: 11400000, guid: 749e4c3b64bc144479df2f76faa69aeb, type: 2}
+  - {fileID: 11400000, guid: 749e4c3b64bc144479df2f76faa69aeb, type: 2}
+  - {fileID: 11400000, guid: 749e4c3b64bc144479df2f76faa69aeb, type: 2}
+  selectedItem: {fileID: 0}
 --- !u!1 &7490164967169021319
 GameObject:
   m_ObjectHideFlags: 0

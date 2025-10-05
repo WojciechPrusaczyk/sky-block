@@ -48,16 +48,19 @@ public class BlocksManager : MonoBehaviour
         worldPos.z = transform.position.z;
         GameObject go = Instantiate(prefab, worldPos, Quaternion.identity, transform);
         placedBlocks[cell] = go;
+        MainUserInfaceController.Instance?.equipment.OnBlockPlace();
     }
 
     /// <summary>
     /// Deletes a block at the given cell if one exists.
     /// </summary>
-    public void DestroyBlock(Vector3Int cell, GameObject prefab)
+    public void DestroyBlock(Vector3Int cell)
     {
-        if (placedBlocks.TryGetValue(cell, out GameObject go) && go != null)
+        if (placedBlocks.TryGetValue(cell, out GameObject block) && block != null)
         {
-            Destroy(go);
+            var itemData = block.GetComponent<BlockItemData>().itemData;
+            Instantiate(itemData.ItemGameObject, tilemap.GetCellCenterWorld(cell), Quaternion.identity, transform);
+            Destroy(block);
             placedBlocks.Remove(cell);
         }
         else

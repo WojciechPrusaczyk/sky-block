@@ -9,8 +9,14 @@ public class Item : ScriptableObject
     [Tooltip("Item type.")]
     public Enums.ItemType Type;
 
+    [Tooltip("Max items in stack.")]
+    public int maxItems;
+
     [Tooltip("Item inventory icon.")]
     public Sprite Icon;
+
+    [Tooltip("Icon displayed when placed in the world enviorment.")]
+    public Sprite WorldIcon;
 
     [Tooltip("GameObject placed in the blocks tileset.")]
     public GameObject BlockGameObject;
@@ -20,7 +26,7 @@ public class Item : ScriptableObject
 
     public virtual void Initialize() {}
 
-    public interface IItemAbility
+    public interface ItemBehaviour
     {
         /// <summary>Method called when LMB is clicked.</summary>
         void Use();
@@ -30,6 +36,9 @@ public class Item : ScriptableObject
 
         /// <summary>Method called when block is placed in the world.</summary>
         void OnPlace();
+
+        /// <summary>Method called when block is destroyed.</summary>
+        void OnDestroy();
 
         /// <summary>Method called when item is removed from inventory.</summary>
         void Remove();

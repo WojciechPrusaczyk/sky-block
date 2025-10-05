@@ -4,35 +4,43 @@
         <ui:VisualElement name="ItemsSlots" style="flex-grow: 1; bottom: 0; height: auto; position: absolute; width: 100%; flex-direction: row; justify-content: center; margin-bottom: 10px;">
             <ui:VisualElement name="Item0" class="itemSlot active">
                 <ui:VisualElement name="ItemBackground0" class="itemSlotBackground" style="flex-grow: 1; width: 100%; height: 100%;" />
-                <ui:VisualElement name="ItemImage0" class="itemSlotImage" style="flex-grow: 1;" />
+                <ui:VisualElement name="ItemImage0" class="itemSlotImage" />
+                <ui:Label text="1" name="ItemLabel0" class="itemLabel" />
             </ui:VisualElement>
             <ui:VisualElement name="Item1" class="itemSlot">
                 <ui:VisualElement name="ItemBackground1" class="itemSlotBackground" style="flex-grow: 1; width: 100%; height: 100%;" />
-                <ui:VisualElement name="ItemImage1" class="itemSlotImage" style="flex-grow: 1;" />
+                <ui:VisualElement name="ItemImage1" class="itemSlotImage" />
+                <ui:Label text="1" name="ItemLabel1" class="itemLabel" />
             </ui:VisualElement>
             <ui:VisualElement name="Item2" class="itemSlot">
                 <ui:VisualElement name="ItemBackground2" class="itemSlotBackground" style="flex-grow: 1; width: 100%; height: 100%;" />
-                <ui:VisualElement name="ItemImage2" class="itemSlotImage" style="flex-grow: 1;" />
+                <ui:VisualElement name="ItemImage2" class="itemSlotImage" />
+                <ui:Label text="1" name="ItemLabel2" class="itemLabel" />
             </ui:VisualElement>
             <ui:VisualElement name="Item3" class="itemSlot">
                 <ui:VisualElement name="ItemBackground3" class="itemSlotBackground" style="flex-grow: 1; width: 100%; height: 100%;" />
-                <ui:VisualElement name="ItemImage3" class="itemSlotImage" style="flex-grow: 1;" />
+                <ui:VisualElement name="ItemImage3" class="itemSlotImage" />
+                <ui:Label text="1" name="ItemLabel3" class="itemLabel" />
             </ui:VisualElement>
             <ui:VisualElement name="Item4" class="itemSlot">
                 <ui:VisualElement name="ItemBackground4" class="itemSlotBackground" style="flex-grow: 1; width: 100%; height: 100%;" />
-                <ui:VisualElement name="ItemImage4" class="itemSlotImage" style="flex-grow: 1;" />
+                <ui:VisualElement name="ItemImage4" class="itemSlotImage" />
+                <ui:Label text="1" name="ItemLabel4" class="itemLabel" />
             </ui:VisualElement>
             <ui:VisualElement name="Item5" class="itemSlot">
                 <ui:VisualElement name="ItemBackground5" class="itemSlotBackground" style="flex-grow: 1; width: 100%; height: 100%;" />
-                <ui:VisualElement name="ItemImage5" class="itemSlotImage" style="flex-grow: 1;" />
+                <ui:VisualElement name="ItemImage5" class="itemSlotImage" />
+                <ui:Label text="1" name="ItemLabel5" class="itemLabel" />
             </ui:VisualElement>
             <ui:VisualElement name="Item6" class="itemSlot">
                 <ui:VisualElement name="ItemBackground6" class="itemSlotBackground" style="flex-grow: 1; width: 100%; height: 100%;" />
-                <ui:VisualElement name="ItemImage6" class="itemSlotImage" style="flex-grow: 1;" />
+                <ui:VisualElement name="ItemImage6" class="itemSlotImage" />
+                <ui:Label text="1" name="ItemLabel6" class="itemLabel" />
             </ui:VisualElement>
             <ui:VisualElement name="Item7" class="itemSlot">
                 <ui:VisualElement name="ItemBackground7" class="itemSlotBackground" style="flex-grow: 1; width: 100%; height: 100%;" />
-                <ui:VisualElement name="ItemImage7" class="itemSlotImage" style="flex-grow: 1;" />
+                <ui:VisualElement name="ItemImage7" class="itemSlotImage" />
+                <ui:Label text="1" name="ItemLabel7" class="itemLabel" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

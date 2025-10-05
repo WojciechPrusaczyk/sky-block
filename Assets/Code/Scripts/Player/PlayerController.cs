@@ -461,21 +461,24 @@ public class PlayerController : MonoBehaviour
         // Player clicked left mouse button
         if (lmbClickedNow && !lmbClicked)
         {
-            if (selectedSlot < 0 || selectedSlot >= eq.slots.Count || eq.GetItemAtSelectedSlot() == null)
+            if (selectedSlot < 0 || selectedSlot >= eq.hotbarMaxItems || eq.GetItemAtSelectedSlot() == null)
                 Debug.LogWarning($"Selected slot {selectedSlot} is invalid or prefab is null.");
             else
             {
-                baseTilemapBlocksManager.PlaceBlock(targetPosition, eq.GetItemAtSelectedSlot().BlockGameObject);
+                if (eq.GetItemAtSelectedSlot())
+                {
+                    baseTilemapBlocksManager.PlaceBlock(targetPosition, eq.GetItemAtSelectedSlot().BlockGameObject);
+                }
             }
         }
         // Player clicked right mouse button
         if (rmbClickedNow && !rmbClicked)
         {
-            if (selectedSlot < 0 || selectedSlot >= eq.slots.Count || eq.GetItemAtSelectedSlot() == null)
-                Debug.LogWarning($"Selected slot {selectedSlot} is invalid or prefab is null.");
+            if (selectedSlot < 0 || selectedSlot >= eq.hotbarMaxItems)
+                Debug.LogWarning($"Selected slot {selectedSlot} is invalid.");
             else
             {
-                baseTilemapBlocksManager.DestroyBlock(targetPosition, eq.GetItemAtSelectedSlot().BlockGameObject);
+                baseTilemapBlocksManager.DestroyBlock(targetPosition);
             }
         }
         lmbClicked = lmbClickedNow;
@@ -503,9 +506,7 @@ public class PlayerController : MonoBehaviour
 
     private void ChangeSelectedSlot(int delta)
     {
-        if (eq.slots == null || eq.slots.Count == 0) return;
-
-        int n = eq.slots.Count;
+        int n = eq.hotbarMaxItems;
         selectedSlot = ((selectedSlot + delta) % n + n) % n;
         eq.SelectItemAtSlot(selectedSlot);
     }

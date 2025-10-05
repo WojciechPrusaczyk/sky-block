@@ -2,9 +2,11 @@
 }
 
 .itemSlot {
-    width: 100px;
-    height: 100px;
+    width: 64px;
+    height: 64px;
     margin-right: 10px;
+    justify-content: center;
+    align-items: center;
 }
 
 .itemSlotBackground {
@@ -17,12 +19,14 @@
 }
 
 .itemSlotImage {
-    background-image: url("project://database/Assets/Art/Blocks/Grass/GrassBlock.png?fileID=2800000&guid=ac97efa613c8a9048946db7805fb32cd&type=3#GrassBlock");
-    margin-bottom: 10px;
+    background-image: url("project://database/Assets/Art/Blocks/Grass/GrassBlockIcon.png?fileID=2800000&guid=2e07c2acbaf224148a75b7d21c89d654&type=3#GrassBlockIcon");
     bottom: 0;
     transition-property: all;
     transition-duration: 300ms;
     transition-timing-function: ease;
+    background-size: 100% 100%;
+    width: 70%;
+    height: 70%;
 }
 
 .active .itemSlotImage {
@@ -38,4 +42,34 @@
     transition-duration: 300ms;
     transition-timing-function: ease;
     background-image: url("project://database/Assets/Art/UserInterface/ItemBackgroundSelected.png?fileID=2800000&guid=8de6b5032bce9d94bb7ee502ad618d58&type=3#ItemBackgroundSelected");
+}
+
+.itemLabel {
+    top: 0;
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: ease;
+}
+
+.active .itemLabel {
+    top: 0;
+    transition-property: all;
+    transition-duration: 300ms;
+    transition-timing-function: ease;
+}
+
+.itemLabel {
+    position: absolute;
+    top: 5px;
+    right: 7px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    -unity-text-outline-width: 0.5px;
+    -unity-text-outline-color: rgb(0, 0, 0);
 }
