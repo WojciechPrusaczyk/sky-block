@@ -78,7 +78,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -528,8 +528,8 @@ MonoBehaviour:
   checkDistance: 3
   isGrounded: 0
   spawnPoint: {fileID: 0}
-  AimAngleDeg: 240.50748
-  AimDistance: 8.099203
+  AimAngleDeg: 105.742325
+  AimDistance: 11.144109
   playerDirection: 0
 --- !u!50 &8253246178606321576
 Rigidbody2D:
@@ -617,16 +617,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   selectedSlot: 0
-  slots:
-  - {fileID: 11400000, guid: 749e4c3b64bc144479df2f76faa69aeb, type: 2}
-  - {fileID: 11400000, guid: e4645fc07edbefa40b9e3a2f855776d4, type: 2}
-  - {fileID: 11400000, guid: e4645fc07edbefa40b9e3a2f855776d4, type: 2}
-  - {fileID: 11400000, guid: e4645fc07edbefa40b9e3a2f855776d4, type: 2}
-  - {fileID: 11400000, guid: 749e4c3b64bc144479df2f76faa69aeb, type: 2}
-  - {fileID: 11400000, guid: 749e4c3b64bc144479df2f76faa69aeb, type: 2}
-  - {fileID: 11400000, guid: 749e4c3b64bc144479df2f76faa69aeb, type: 2}
-  - {fileID: 11400000, guid: 749e4c3b64bc144479df2f76faa69aeb, type: 2}
   selectedItem: {fileID: 0}
+  hotbarMaxItems: 8
+  inventoryMaxItems: 32
 --- !u!1 &7490164967169021319
 GameObject:
   m_ObjectHideFlags: 0
