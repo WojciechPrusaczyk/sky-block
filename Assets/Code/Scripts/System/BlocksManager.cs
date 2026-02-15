@@ -68,4 +68,18 @@ public class BlocksManager : MonoBehaviour
             Debug.Log($"No block to delete at {cell}");
         }
     }
+
+    /// <summary>
+    /// Returns block placed at provided cell.
+    /// </summary>
+    public GameObject GetBlock(Vector3Int cell)
+    {
+        if (placedBlocks.TryGetValue(cell, out GameObject block) && block != null)
+        {
+            return block;
+        }
+
+        Debug.Log($"No block at {cell}");
+        return null;
+    }
 }

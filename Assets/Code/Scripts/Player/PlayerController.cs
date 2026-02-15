@@ -98,6 +98,8 @@ public class PlayerController : MonoBehaviour
 
     private Tilemap baseTilemap;
     private BlocksManager baseTilemapBlocksManager;
+    private Tilemap topTilemap;
+    private BlocksManager topTilemapBlocksManager;
 
     private Tilemap objectsTilemap;
     private BlocksManager objectsTilemapBlocksManager;
@@ -136,20 +138,20 @@ public class PlayerController : MonoBehaviour
                 var baseTilemapObject = gridObject.transform.Find("BaseTilemap");
                 if (baseTilemapObject)
                     baseTilemap = baseTilemapObject.GetComponent<Tilemap>();
-                else
-                    Debug.LogError("Not found 'BaseTilemap' in gameobject tree.");
 
                 if (baseTilemapObject)
                     baseTilemapBlocksManager = baseTilemapObject.GetComponent<BlocksManager>();
-
-                var objectsTilemapObject = gridObject.transform.Find("ObjectsTilemap");
-                if (objectsTilemapObject)
-                    objectsTilemap = objectsTilemapObject.GetComponent<Tilemap>();
                 else
-                    Debug.LogError("Not found 'ObjectsTilemap' in gameobject tree.");
+                    Debug.LogError("Not found 'BaseTilemap' in gameobject tree.");
 
-                if (objectsTilemapObject)
-                    objectsTilemapBlocksManager = objectsTilemapObject.GetComponent<BlocksManager>();
+                var topTilemapObject = gridObject.transform.Find("TopTilemap");
+                if (topTilemapObject)
+                    topTilemap = topTilemapObject.GetComponent<Tilemap>();
+                else
+                    Debug.LogError("Not found 'TopTilemap' in gameobject tree.");
+
+                if (topTilemapObject)
+                    topTilemapBlocksManager = topTilemapObject.GetComponent<BlocksManager>();
             }
         }
 
@@ -455,11 +457,13 @@ public class PlayerController : MonoBehaviour
     {
         if (AimDistance > maxRayLength) return;
 
-        bool lmbClickedNow = action != null && action.action.ReadValue<float>() >= 0.5f;
         bool rmbClickedNow = additionalAction != null && additionalAction.action.ReadValue<float>() >= 0.5f;
+        bool lmbClickedNow = action != null && action.action.ReadValue<float>() >= 0.5f;
+        bool rmbPressedThisFrame = rmbClickedNow && !rmbClicked;
+        bool lmbPressedThisFrame = lmbClickedNow && !lmbClicked;
 
-        // Player clicked left mouse button
-        if (lmbClickedNow && !lmbClicked)
+        // Player clicked right mouse button
+        if (rmbPressedThisFrame)
         {
             if (selectedSlot < 0 || selectedSlot >= eq.hotbarMaxItems || eq.GetItemAtSelectedSlot() == null)
                 Debug.LogWarning($"Selected slot {selectedSlot} is invalid or prefab is null.");
@@ -467,18 +471,34 @@ public class PlayerController : MonoBehaviour
             {
                 if (eq.GetItemAtSelectedSlot())
                 {
-                    baseTilemapBlocksManager.PlaceBlock(targetPosition, eq.GetItemAtSelectedSlot().BlockGameObject);
+                    // Defining block layer to place
+                    GameObject blockToPlace = eq.GetItemAtSelectedSlot().BlockGameObject;
+                    Item item = blockToPlace.GetComponent<BlockItemData>().itemData;
+
+                    if (item.Type == Enums.ItemType.BaseBlock)
+                        baseTilemapBlocksManager.PlaceBlock(targetPosition, eq.GetItemAtSelectedSlot().BlockGameObject);
+                    else if (item.Type == Enums.ItemType.TopBlock && baseTilemapBlocksManager.GetBlock(targetPosition))
+                        topTilemapBlocksManager.PlaceBlock(targetPosition, eq.GetItemAtSelectedSlot().BlockGameObject);
                 }
             }
         }
-        // Player clicked right mouse button
-        if (rmbClickedNow && !rmbClicked)
+        // Player clicked left mouse button
+        if (lmbPressedThisFrame)
         {
             if (selectedSlot < 0 || selectedSlot >= eq.hotbarMaxItems)
                 Debug.LogWarning($"Selected slot {selectedSlot} is invalid.");
             else
             {
-                baseTilemapBlocksManager.DestroyBlock(targetPosition);
+                if (topTilemapBlocksManager.GetBlock(targetPosition))
+                {
+                    topTilemapBlocksManager.DestroyBlock(targetPosition);
+                    Debug.Log("Destroying block at top tilemap.");
+                }
+                else
+                {
+                    baseTilemapBlocksManager.DestroyBlock(targetPosition);
+                    Debug.Log("Destroying block at base tilemap.");
+                }
             }
         }
         lmbClicked = lmbClickedNow;
