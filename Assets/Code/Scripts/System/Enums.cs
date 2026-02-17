@@ -16,4 +16,9 @@ public class Enums : MonoBehaviour
     {
         BaseBlock, TopBlock, Tool, Other
     }
+
+    public enum ToolType
+    {
+        None, Axe, Pickaxe, Shovel
+    }
 }

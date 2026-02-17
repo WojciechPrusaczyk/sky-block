@@ -20,7 +20,6 @@ public class TreeController : MonoBehaviour
             var playerSpriteRenderer = player.GetComponentInChildren<SpriteRenderer>();
             playerSortingLayer = playerSpriteRenderer.sortingOrder;
         }
-
     }
 
     private void Update()

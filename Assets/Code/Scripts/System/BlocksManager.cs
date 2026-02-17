@@ -30,7 +30,7 @@ public class BlocksManager : MonoBehaviour
     /// <summary>
     /// Places a block prefab at the given cell if it's empty.
     /// </summary>
-    public void PlaceBlock(Vector3Int cell, GameObject prefab)
+    public void PlaceBlock(Vector3Int cell, GameObject prefab, Item placedByItem = null)
     {
         if (placedBlocks.ContainsKey(cell))
         {
@@ -48,6 +48,13 @@ public class BlocksManager : MonoBehaviour
         worldPos.z = transform.position.z;
         GameObject go = Instantiate(prefab, worldPos, Quaternion.identity, transform);
         placedBlocks[cell] = go;
+
+        BlockBehaviour blockBehaviour = go.GetComponent<BlockBehaviour>();
+        if (blockBehaviour)
+        {
+            blockBehaviour.OnPlaced(placedByItem);
+        }
+
         MainUserInfaceController.Instance?.equipment.OnBlockPlace();
     }
 
@@ -70,11 +77,26 @@ public class BlocksManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns block placed at provided cell without extra logs.
+    /// </summary>
+    public bool TryGetBlock(Vector3Int cell, out GameObject block)
+    {
+        if (placedBlocks.TryGetValue(cell, out GameObject foundBlock) && foundBlock != null)
+        {
+            block = foundBlock;
+            return true;
+        }
+
+        block = null;
+        return false;
+    }
+
+    /// <summary>
     /// Returns block placed at provided cell.
     /// </summary>
     public GameObject GetBlock(Vector3Int cell)
     {
-        if (placedBlocks.TryGetValue(cell, out GameObject block) && block != null)
+        if (TryGetBlock(cell, out GameObject block))
         {
             return block;
         }

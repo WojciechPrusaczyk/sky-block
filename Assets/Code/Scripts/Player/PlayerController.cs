@@ -465,21 +465,35 @@ public class PlayerController : MonoBehaviour
         // Player clicked right mouse button
         if (rmbPressedThisFrame)
         {
-            if (selectedSlot < 0 || selectedSlot >= eq.hotbarMaxItems || eq.GetItemAtSelectedSlot() == null)
+            Item selectedItem = (selectedSlot >= 0 && selectedSlot < eq.hotbarMaxItems)
+                ? eq.GetItemAtSelectedSlot()
+                : null;
+
+            if (topTilemapBlocksManager.TryGetBlock(targetPosition, out GameObject topTargetBlock))
+            {
+                BlockBehaviour blockBehaviour = topTargetBlock.GetComponent<BlockBehaviour>();
+                if (blockBehaviour && blockBehaviour.OnAltUse(selectedItem))
+                {
+                    rmbClicked = rmbClickedNow;
+                    lmbClicked = lmbClickedNow;
+                    return;
+                }
+            }
+
+            if (selectedItem == null)
+            {
                 Debug.LogWarning($"Selected slot {selectedSlot} is invalid or prefab is null.");
+            }
             else
             {
-                if (eq.GetItemAtSelectedSlot())
-                {
-                    // Defining block layer to place
-                    GameObject blockToPlace = eq.GetItemAtSelectedSlot().BlockGameObject;
-                    Item item = blockToPlace.GetComponent<BlockItemData>().itemData;
+                // Defining block layer to place
+                GameObject blockToPlace = selectedItem.BlockGameObject;
+                Item item = blockToPlace.GetComponent<BlockItemData>().itemData;
 
-                    if (item.Type == Enums.ItemType.BaseBlock)
-                        baseTilemapBlocksManager.PlaceBlock(targetPosition, eq.GetItemAtSelectedSlot().BlockGameObject);
-                    else if (item.Type == Enums.ItemType.TopBlock && baseTilemapBlocksManager.GetBlock(targetPosition))
-                        topTilemapBlocksManager.PlaceBlock(targetPosition, eq.GetItemAtSelectedSlot().BlockGameObject);
-                }
+                if (item.Type == Enums.ItemType.BaseBlock)
+                    baseTilemapBlocksManager.PlaceBlock(targetPosition, selectedItem.BlockGameObject, selectedItem);
+                else if (item.Type == Enums.ItemType.TopBlock && baseTilemapBlocksManager.GetBlock(targetPosition))
+                    topTilemapBlocksManager.PlaceBlock(targetPosition, selectedItem.BlockGameObject, selectedItem);
             }
         }
         // Player clicked left mouse button
@@ -489,12 +503,26 @@ public class PlayerController : MonoBehaviour
                 Debug.LogWarning($"Selected slot {selectedSlot} is invalid.");
             else
             {
-                if (topTilemapBlocksManager.GetBlock(targetPosition))
+                Item selectedItem = eq.GetItemAtSelectedSlot();
+
+                if (topTilemapBlocksManager.TryGetBlock(targetPosition, out GameObject topBlock))
                 {
-                    topTilemapBlocksManager.DestroyBlock(targetPosition);
-                    Debug.Log("Destroying block at top tilemap.");
+                    BlockBehaviour blockBehaviour = topBlock.GetComponent<BlockBehaviour>();
+                    if (blockBehaviour)
+                    {
+                        bool wasHandled = blockBehaviour.OnUse(selectedItem);
+                        if (!wasHandled)
+                        {
+                            blockBehaviour.Hit(selectedItem);
+                        }
+                    }
+                    else
+                    {
+                        topTilemapBlocksManager.DestroyBlock(targetPosition);
+                        Debug.Log("Destroying block at top tilemap.");
+                    }
                 }
-                else
+                else if (baseTilemapBlocksManager.TryGetBlock(targetPosition, out _))
                 {
                     baseTilemapBlocksManager.DestroyBlock(targetPosition);
                     Debug.Log("Destroying block at base tilemap.");
