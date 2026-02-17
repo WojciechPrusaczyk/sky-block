@@ -81,6 +81,7 @@ GameObject:
   - component: {fileID: 1502266661137659821}
   - component: {fileID: 4223015650356728350}
   - component: {fileID: 74181285083869038}
+  - component: {fileID: 3454743451836402612}
   m_Layer: 0
   m_Name: SpruceTree
   m_TagString: Ground
@@ -151,6 +152,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b1e77790d361d44499b73cdbd9bfa4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreeController
+  fadeDuration: 0.12
+--- !u!114 &3454743451836402612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2568187234612729721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 109ebe6ca65bedf42a476478374c10ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpruceTree
+  fallbackHealth: 4
+  wrongToolDamageMultiplier: 0.5
 --- !u!1 &5013433995894892986
 GameObject:
   m_ObjectHideFlags: 0
