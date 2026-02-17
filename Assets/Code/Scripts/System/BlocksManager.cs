@@ -65,8 +65,31 @@ public class BlocksManager : MonoBehaviour
     {
         if (placedBlocks.TryGetValue(cell, out GameObject block) && block != null)
         {
-            var itemData = block.GetComponent<BlockItemData>().itemData;
-            Instantiate(itemData.ItemGameObject, tilemap.GetCellCenterWorld(cell), Quaternion.identity, transform);
+            BlockItemData blockItemData = block.GetComponent<BlockItemData>();
+            if (!blockItemData || !blockItemData.itemData)
+            {
+                Debug.LogError($"Missing BlockItemData or itemData on block '{block.name}' at {cell}.");
+                Destroy(block);
+                placedBlocks.Remove(cell);
+                return;
+            }
+
+            Item itemData = blockItemData.itemData;
+            var xTranslation = Random.Range(-.35f, .35f);
+            var yTranslation = Random.Range(-.35f, .35f);
+            Vector3 target = tilemap.GetCellCenterWorld(cell);
+
+            Vector3 newPos = new Vector3(target.x + xTranslation, target.y + yTranslation, target.z);
+
+            if (itemData.ItemGameObject)
+            {
+                Instantiate(itemData.ItemGameObject, newPos, Quaternion.identity, transform);
+            }
+            else
+            {
+                Debug.LogError($"Missing ItemGameObject in BlockItemData.itemData for block '{block.name}' at {cell}.");
+            }
+
             Destroy(block);
             placedBlocks.Remove(cell);
         }

@@ -522,10 +522,22 @@ public class PlayerController : MonoBehaviour
                         Debug.Log("Destroying block at top tilemap.");
                     }
                 }
-                else if (baseTilemapBlocksManager.TryGetBlock(targetPosition, out _))
+                else if (baseTilemapBlocksManager.TryGetBlock(targetPosition, out GameObject baseBlock))
                 {
-                    baseTilemapBlocksManager.DestroyBlock(targetPosition);
-                    Debug.Log("Destroying block at base tilemap.");
+                    BlockBehaviour blockBehaviour = baseBlock.GetComponent<BlockBehaviour>();
+                    if (blockBehaviour)
+                    {
+                        bool wasHandled = blockBehaviour.OnUse(selectedItem);
+                        if (!wasHandled)
+                        {
+                            blockBehaviour.Hit(selectedItem);
+                        }
+                    }
+                    else
+                    {
+                        baseTilemapBlocksManager.DestroyBlock(targetPosition);
+                        Debug.Log("Destroying block at base tilemap.");
+                    }
                 }
             }
         }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 640986566713488313}
   - component: {fileID: 1502266661137659821}
   - component: {fileID: 558961866617950331}
+  - component: {fileID: 8676822806709215763}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Ground
@@ -69,6 +70,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlockItemData
   itemData: {fileID: 11400000, guid: e4645fc07edbefa40b9e3a2f855776d4, type: 2}
+--- !u!114 &8676822806709215763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2568187234612729721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11396da9fb51d0c418b4feab5796d598, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ground
+  fallbackHealth: 4
+  wrongToolDamageMultiplier: 0.5
 --- !u!1 &5044845091784692279
 GameObject:
   m_ObjectHideFlags: 0

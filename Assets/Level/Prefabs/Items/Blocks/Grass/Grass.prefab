@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 640986566713488313}
   - component: {fileID: 1502266661137659821}
   - component: {fileID: 4223015650356728350}
+  - component: {fileID: 1258787243616926901}
   m_Layer: 0
   m_Name: Grass
   m_TagString: Ground
@@ -69,6 +70,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   itemData: {fileID: 11400000, guid: 749e4c3b64bc144479df2f76faa69aeb, type: 2}
+--- !u!114 &1258787243616926901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2568187234612729721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2ecfa59f5d557d4eb6910852a5d2a0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrassBlock
+  fallbackHealth: 4
+  wrongToolDamageMultiplier: 0.5
 --- !u!1 &5044845091784692279
 GameObject:
   m_ObjectHideFlags: 0

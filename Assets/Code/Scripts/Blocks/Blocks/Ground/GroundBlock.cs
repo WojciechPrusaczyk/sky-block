@@ -5,7 +5,7 @@ using UnityEngine;
 /// Inherit from <see cref="BlockBehaviour"/> and override hooks to define
 /// block-specific interactions in one place.
 /// </summary>
-public class SpruceTree : BlockBehaviour
+public class Ground : BlockBehaviour
 {
     #region Placement
 
@@ -23,7 +23,6 @@ public class SpruceTree : BlockBehaviour
     /// </summary>
     protected override void OnDestroyed()
     {
-
     }
 
     #endregion
@@ -73,7 +72,7 @@ public class SpruceTree : BlockBehaviour
     /// </summary>
     protected override string GetHitLogName()
     {
-        return "Tree";
+        return "Ground";
     }
 
     #endregion
