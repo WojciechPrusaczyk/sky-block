@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Equipment : MonoBehaviour
 {
+    [Serializable]
+    public class EquipmentSlot
+    {
+        public Item item;
+        public int amount;
+    }
+
     public int selectedSlot;
-    public Dictionary<Item, int> slots = new Dictionary<Item, int>();
+    public List<EquipmentSlot> slots = new List<EquipmentSlot>();
 
     public Item selectedItem;
 
@@ -19,7 +25,7 @@ public class Equipment : MonoBehaviour
         selectedSlot = 0;
 
         if (slots.Count > 0)
-            selectedItem = slots.ElementAt(selectedSlot).Key;
+            selectedItem = slots[selectedSlot].item;
         else
             selectedItem = null;
 
@@ -32,7 +38,7 @@ public class Equipment : MonoBehaviour
         selectedSlot = Mathf.Clamp(slot, 0, hotbarMaxItems - 1);
 
         if (slots != null && selectedSlot < slots.Count)
-            selectedItem = slots.ElementAt(selectedSlot).Key;
+            selectedItem = slots[selectedSlot].item;
         else
             selectedItem = null;
 
@@ -42,14 +48,14 @@ public class Equipment : MonoBehaviour
 
     public Item GetItemAtSelectedSlot()
     {
-        if (slots.Count == 0 || slots.Count < selectedSlot) return null;
-        return slots.ElementAt(selectedSlot).Key;
+        if (slots.Count == 0 || selectedSlot < 0 || selectedSlot >= slots.Count) return null;
+        return slots[selectedSlot].item;
     }
 
     public int GetItemAmountAtSelectedSlot()
     {
-        if (slots.Count == 0) return 0;
-        return slots.ElementAt(selectedSlot).Value;
+        if (slots.Count == 0 || selectedSlot < 0 || selectedSlot >= slots.Count) return 0;
+        return slots[selectedSlot].amount;
     }
 
     /// <summary>
@@ -64,13 +70,15 @@ public class Equipment : MonoBehaviour
             return false;
         }
 
-        if (slots.ContainsKey(item))
+        for (int i = 0; i < slots.Count; i++)
         {
-            int currentAmount = slots[item];
+            var slot = slots[i];
+            if (slot.item != item)
+                continue;
 
-            if (currentAmount < item.maxItems)
+            if (slot.amount < item.maxItems)
             {
-                slots[item] = Mathf.Min(currentAmount + 1, item.maxItems);
+                slot.amount = Mathf.Min(slot.amount + 1, item.maxItems);
                 MainUserInfaceController.Instance?.UpdateItemSlots();
                 return true;
             }
@@ -83,7 +91,11 @@ public class Equipment : MonoBehaviour
             return false;
         }
 
-        slots.Add(item, 1);
+        slots.Add(new EquipmentSlot
+        {
+            item = item,
+            amount = 1
+        });
         MainUserInfaceController.Instance?.UpdateItemSlots();
         return true;
     }
@@ -96,9 +108,9 @@ public class Equipment : MonoBehaviour
         if (selectedSlot < 0 || selectedSlot >= slots.Count)
             return false;
 
-        var pair = slots.ElementAt(selectedSlot);
-        Item item = pair.Key;
-        int count = pair.Value;
+        var slot = slots[selectedSlot];
+        Item item = slot.item;
+        int count = slot.amount;
 
         if (item == null || count <= 0)
             return false;
@@ -107,12 +119,16 @@ public class Equipment : MonoBehaviour
 
         if (count > 0)
         {
-            slots[item] = count;
+            slot.amount = count;
         }
         else
         {
-            slots.Remove(item);
-            selectedItem = null;
+            slots.RemoveAt(selectedSlot);
+
+            if (selectedSlot >= slots.Count)
+                selectedItem = null;
+            else
+                selectedItem = slots[selectedSlot].item;
         }
 
         MainUserInfaceController.Instance?.UpdateItemSlots();

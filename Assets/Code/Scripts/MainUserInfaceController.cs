@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -95,25 +94,21 @@ public class MainUserInfaceController : MonoBehaviour
         int uiCount = equipment.hotbarMaxItems;
         int itemsCount = equipment.slots != null ? equipment.slots.Count : 0;
 
-        var slotPairs = (equipment.slots != null)
-            ? equipment.slots.ToList()
-            : new List<KeyValuePair<Item, int>>();
-
         for (int i = 0; i < uiCount; i++)
         {
             var slotImage = slotsImages[i];
             var slotQty = slotsQty[i];
             if (slotImage == null) continue;
 
-            Item item = (i < itemsCount) ? slotPairs[i].Key : null;
-            int qty = (i < itemsCount) ? slotPairs[i].Value : 0;
+            Item item = (i < itemsCount) ? equipment.slots[i].item : null;
+            int qty = (i < itemsCount) ? equipment.slots[i].amount : 0;
             Sprite icon = item != null ? item.Icon : null;
 
             slotImage.style.backgroundImage = icon != null
                 ? new StyleBackground(icon)
                 : null;
 
-            if (qty > 0)
+            if (qty > 1)
                 slotQty.text = qty.ToString();
             else
                 slotQty.text = "";
