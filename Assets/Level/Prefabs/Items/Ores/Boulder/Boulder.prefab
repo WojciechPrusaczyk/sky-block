@@ -81,9 +81,9 @@ GameObject:
   - component: {fileID: 1502266661137659821}
   - component: {fileID: 4223015650356728350}
   - component: {fileID: 74181285083869038}
-  - component: {fileID: 3454743451836402612}
+  - component: {fileID: 1893345912621053447}
   m_Layer: 0
-  m_Name: Rock
+  m_Name: Boulder
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa0ba555da702347a923cff82bbb1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  itemData: {fileID: 11400000, guid: 594ccfa5c1224dd40b9ad01b813baf96, type: 2}
+  itemData: {fileID: 11400000, guid: e0f617edfe2b5054fbd613aa471577ab, type: 2}
 --- !u!114 &74181285083869038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreeController
   fadeDuration: 0.12
---- !u!114 &3454743451836402612
+--- !u!114 &1893345912621053447
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,9 +162,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2568187234612729721}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 109ebe6ca65bedf42a476478374c10ad, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c5d9806ecaeb544ab1a9a17ba8d17b1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpruceTree
+  m_EditorClassIdentifier: Assembly-CSharp::Boulder
   fallbackHealth: 4
   wrongToolDamageMultiplier: 0.5
 --- !u!1 &5013433995894892986
@@ -201,6 +201,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8405157352413454767
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -246,6 +247,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 77a777e3b19aec54885ee4bed311a151, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -255,5 +257,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
