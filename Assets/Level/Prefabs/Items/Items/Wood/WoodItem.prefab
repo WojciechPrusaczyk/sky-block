@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8105671569084952841}
   - component: {fileID: 7897900912010189861}
   m_Layer: 0
-  m_Name: RockItem
+  m_Name: WoodItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5696f58b3da17a843a5edd700ec89a08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  itemData: {fileID: 11400000, guid: bcb62248c49fe12449ab927d2b87f662, type: 2}
+  itemData: {fileID: 11400000, guid: 862ccc21ec508a24c907826792be3b84, type: 2}
   animateFloating: 1
   maxBlockHeight: 0.25
   floatSpeed: 2
@@ -168,7 +168,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: e12dc3f668915e24e9ca4668ad0f105a, type: 3}
+  m_Sprite: {fileID: -1054014727660348875, guid: 7707d5a52b67c544fb325805376084df, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

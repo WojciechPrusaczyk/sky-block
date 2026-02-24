@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e12dc3f668915e24e9ca4668ad0f105a
+guid: 9c17616a7e3070c498d6e588786a4de7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7904505688398241094
-    second: RockIconFrame_0
+      213: 1091875016586840300
+    second: WoodIcon_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RockIconFrame_0
+      name: WoodIcon_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 1
         y: 1
-        width: 16
+        width: 14
         height: 14
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ab2e7fdc4fd8d4290800000000000000
-      internalID: -7904505688398241094
+      spriteID: ce848c6ea8e172f00800000000000000
+      internalID: 1091875016586840300
       vertices: []
       indices: 
       edges: []
@@ -125,8 +125,8 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    spriteID: 
+    internalID: 0
     vertices: []
     indices: 
     edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      RockIconFrame_0: -7904505688398241094
+      WoodIcon_0: 1091875016586840300
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
