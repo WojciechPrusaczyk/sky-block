@@ -167,10 +167,12 @@ public class BlockBehaviour : MonoBehaviour
             return;
         }
 
+        bool spawnOutsideOfBlock = blockItemData != null && blockItemData.Type == Enums.ItemType.TopBlock;
+
         if (parentBlocksManager && parentTilemap)
         {
             Vector3Int cell = parentTilemap.WorldToCell(transform.position);
-            parentBlocksManager.SpawnDrop(itemToDrop, cell);
+            parentBlocksManager.SpawnDrop(itemToDrop, cell, spawnOutsideOfBlock);
             return;
         }
 

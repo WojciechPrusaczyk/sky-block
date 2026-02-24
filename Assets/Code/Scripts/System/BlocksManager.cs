@@ -75,7 +75,8 @@ public class BlocksManager : MonoBehaviour
             }
 
             Item itemData = blockItemData.itemData;
-            SpawnDropsFromList(itemData.blockDestroyedDrop, cell, block.name);
+            bool spawnOutsideOfBlock = itemData.Type == Enums.ItemType.TopBlock;
+            SpawnDropsFromList(itemData.blockDestroyedDrop, cell, block.name, spawnOutsideOfBlock);
 
             Destroy(block);
             placedBlocks.Remove(cell);
@@ -115,7 +116,7 @@ public class BlocksManager : MonoBehaviour
         return null;
     }
 
-    public void SpawnDrop(GameObject itemPrefab, Vector3Int cell)
+    public void SpawnDrop(GameObject itemPrefab, Vector3Int cell, bool spawnOutsideOfBlock = false)
     {
         if (itemPrefab == null)
         {
@@ -123,13 +124,26 @@ public class BlocksManager : MonoBehaviour
         }
 
         Vector3 target = tilemap.GetCellCenterWorld(cell);
-        float xTranslation = Random.Range(-.35f, .35f);
-        float yTranslation = Random.Range(-.35f, .35f);
-        Vector3 newPos = new Vector3(target.x + xTranslation, target.y + yTranslation, target.z);
-        Instantiate(itemPrefab, newPos, Quaternion.identity, transform);
+
+        if (!spawnOutsideOfBlock)
+        {
+            float xTranslation = Random.Range(-.35f, .35f);
+            float yTranslation = Random.Range(-.35f, .35f);
+            Vector3 newPos = new Vector3(target.x + xTranslation, target.y + yTranslation, target.z);
+            Instantiate(itemPrefab, newPos, Quaternion.identity, transform);
+        }
+        else
+        {
+            float angle = Random.Range(0f, Mathf.PI * 2f);
+            float radius = Random.Range(0.55f, 0.8f);
+            float xTranslation = Mathf.Cos(angle) * radius;
+            float yTranslation = Mathf.Sin(angle) * radius;
+            Vector3 newPos = new Vector3(target.x + xTranslation, target.y + yTranslation, target.z);
+            Instantiate(itemPrefab, newPos, Quaternion.identity, transform);
+        }
     }
 
-    private void SpawnDropsFromList(List<Item.BlockDrop> drops, Vector3Int cell, string blockName)
+    private void SpawnDropsFromList(List<Item.BlockDrop> drops, Vector3Int cell, string blockName, bool spawnOutsideOfBlock = false)
     {
         if (drops == null || drops.Count == 0)
         {
@@ -165,7 +179,7 @@ public class BlocksManager : MonoBehaviour
 
             for (int i = 0; i < dropCount; i++)
             {
-                SpawnDrop(drop.itemToDrop, cell);
+                SpawnDrop(drop.itemToDrop, cell, spawnOutsideOfBlock);
             }
         }
     }
