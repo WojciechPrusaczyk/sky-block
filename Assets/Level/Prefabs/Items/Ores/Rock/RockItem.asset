@@ -22,4 +22,10 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: f0c2144d9c21ae3468be8344860edea5, type: 3}
   WorldIcon: {fileID: 21300000, guid: 4d915eca8b72f994097cea5459b20838, type: 3}
   BlockGameObject: {fileID: 2568187234612729721, guid: 4768bda6cd36a9149833f3ec6deb61a7, type: 3}
-  ItemGameObject: {fileID: 0}
+  blockDrop:
+  - itemToDrop: {fileID: 0}
+    hpPerDrop: 0
+    minItemDrop: 0.02
+    maxItemDrop: 0
+    chanceToDrop: 0
+  blockDestroyedDrop: []

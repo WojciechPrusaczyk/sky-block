@@ -29,8 +29,8 @@ public class Equipment : MonoBehaviour
         else
             selectedItem = null;
 
-        MainUserInfaceController.Instance?.SelectItem(selectedSlot);
-        MainUserInfaceController.Instance?.UpdateItemSlots();
+        RefreshUiSelection();
+        RefreshUiSlots();
     }
 
     public void SelectItemAtSlot(int slot)
@@ -42,8 +42,8 @@ public class Equipment : MonoBehaviour
         else
             selectedItem = null;
 
-        MainUserInfaceController.Instance?.SelectItem(selectedSlot);
-        MainUserInfaceController.Instance?.UpdateItemSlots();
+        RefreshUiSelection();
+        RefreshUiSlots();
     }
 
     public Item GetItemAtSelectedSlot()
@@ -79,7 +79,7 @@ public class Equipment : MonoBehaviour
             if (slot.amount < item.maxItems)
             {
                 slot.amount = Mathf.Min(slot.amount + 1, item.maxItems);
-                MainUserInfaceController.Instance?.UpdateItemSlots();
+                RefreshUiSlots();
                 return true;
             }
         }
@@ -96,7 +96,7 @@ public class Equipment : MonoBehaviour
             item = item,
             amount = 1
         });
-        MainUserInfaceController.Instance?.UpdateItemSlots();
+        RefreshUiSlots();
         return true;
     }
 
@@ -131,8 +131,26 @@ public class Equipment : MonoBehaviour
                 selectedItem = slots[selectedSlot].item;
         }
 
-        MainUserInfaceController.Instance?.UpdateItemSlots();
+        RefreshUiSlots();
 
         return true;
+    }
+
+    private void RefreshUiSlots()
+    {
+        MainUserInfaceController ui = MainUserInfaceController.Instance;
+        if (ui != null && ui.isActiveAndEnabled)
+        {
+            ui.UpdateItemSlots();
+        }
+    }
+
+    private void RefreshUiSelection()
+    {
+        MainUserInfaceController ui = MainUserInfaceController.Instance;
+        if (ui != null && ui.isActiveAndEnabled)
+        {
+            ui.SelectItem(selectedSlot);
+        }
     }
 }

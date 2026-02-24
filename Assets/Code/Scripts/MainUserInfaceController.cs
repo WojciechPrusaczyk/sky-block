@@ -14,11 +14,15 @@ public class MainUserInfaceController : MonoBehaviour
     private List<VisualElement> slotsImages;
     private List<Label> slotsQty;
     public Equipment equipment;
+    private UIDocument uiDocument;
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
-            Destroy(this);
+        {
+            Destroy(gameObject);
+            return;
+        }
         else
             Instance = this;
 
@@ -36,7 +40,7 @@ public class MainUserInfaceController : MonoBehaviour
 
     private void OnEnable()
     {
-        var uiDocument = GetComponent<UIDocument>();
+        uiDocument = GetComponent<UIDocument>();
         if (uiDocument == null)
         {
             Debug.LogError("ERROR! Brak UIDocument");
@@ -73,15 +77,57 @@ public class MainUserInfaceController : MonoBehaviour
         UpdateItemSlots();
     }
 
+    private void OnDisable()
+    {
+        root = null;
+        slots = null;
+        slotsBackgrounds = null;
+        slotsImages = null;
+        slotsQty = null;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
+
     public void SelectItem(int slot)
     {
+        if (!IsUiReady())
+        {
+            return;
+        }
+
+        if (slot < 0 || slot >= equipment.hotbarMaxItems || slot >= slots.Count)
+        {
+            return;
+        }
+
         for (int i = 0; i < equipment.hotbarMaxItems; i++)
         {
+            if (i >= slots.Count)
+            {
+                break;
+            }
+
             VisualElement item = slots[i];
+            if (item == null || item.panel == null)
+            {
+                continue;
+            }
+
             item.RemoveFromClassList("active");
         }
 
         VisualElement selectedItem = slots[slot];
+        if (selectedItem == null || selectedItem.panel == null)
+        {
+            return;
+        }
+
         selectedItem.AddToClassList("active");
 
         UpdateItemSlots();
@@ -89,16 +135,21 @@ public class MainUserInfaceController : MonoBehaviour
 
     public void UpdateItemSlots()
     {
-        if (slotsImages == null || equipment == null || slotsQty == null) return;
+        if (!IsUiReady()) return;
 
         int uiCount = equipment.hotbarMaxItems;
         int itemsCount = equipment.slots != null ? equipment.slots.Count : 0;
 
         for (int i = 0; i < uiCount; i++)
         {
+            if (i >= slotsImages.Count || i >= slotsQty.Count)
+            {
+                break;
+            }
+
             var slotImage = slotsImages[i];
             var slotQty = slotsQty[i];
-            if (slotImage == null) continue;
+            if (slotImage == null || slotQty == null || slotImage.panel == null || slotQty.panel == null) continue;
 
             Item item = (i < itemsCount) ? equipment.slots[i].item : null;
             int qty = (i < itemsCount) ? equipment.slots[i].amount : 0;
@@ -113,5 +164,25 @@ public class MainUserInfaceController : MonoBehaviour
             else
                 slotQty.text = "";
         }
+    }
+
+    private bool IsUiReady()
+    {
+        if (equipment == null || uiDocument == null)
+        {
+            return false;
+        }
+
+        if (root == null || root.panel == null)
+        {
+            return false;
+        }
+
+        if (slots == null || slotsImages == null || slotsQty == null)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

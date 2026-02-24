@@ -75,20 +75,7 @@ public class BlocksManager : MonoBehaviour
             }
 
             Item itemData = blockItemData.itemData;
-            var xTranslation = Random.Range(-.35f, .35f);
-            var yTranslation = Random.Range(-.35f, .35f);
-            Vector3 target = tilemap.GetCellCenterWorld(cell);
-
-            Vector3 newPos = new Vector3(target.x + xTranslation, target.y + yTranslation, target.z);
-
-            if (itemData.ItemGameObject)
-            {
-                Instantiate(itemData.ItemGameObject, newPos, Quaternion.identity, transform);
-            }
-            else
-            {
-                Debug.LogError($"Missing ItemGameObject in BlockItemData.itemData for block '{block.name}' at {cell}.");
-            }
+            SpawnDropsFromList(itemData.blockDestroyedDrop, cell, block.name);
 
             Destroy(block);
             placedBlocks.Remove(cell);
@@ -126,5 +113,60 @@ public class BlocksManager : MonoBehaviour
 
         Debug.Log($"No block at {cell}");
         return null;
+    }
+
+    public void SpawnDrop(GameObject itemPrefab, Vector3Int cell)
+    {
+        if (itemPrefab == null)
+        {
+            return;
+        }
+
+        Vector3 target = tilemap.GetCellCenterWorld(cell);
+        float xTranslation = Random.Range(-.35f, .35f);
+        float yTranslation = Random.Range(-.35f, .35f);
+        Vector3 newPos = new Vector3(target.x + xTranslation, target.y + yTranslation, target.z);
+        Instantiate(itemPrefab, newPos, Quaternion.identity, transform);
+    }
+
+    private void SpawnDropsFromList(List<Item.BlockDrop> drops, Vector3Int cell, string blockName)
+    {
+        if (drops == null || drops.Count == 0)
+        {
+            return;
+        }
+
+        foreach (Item.BlockDrop drop in drops)
+        {
+            if (drop == null)
+            {
+                continue;
+            }
+
+            if (drop.itemToDrop == null)
+            {
+                Debug.LogWarning($"Missing itemToDrop in destroyed drop list for block '{blockName}' at {cell}.");
+                continue;
+            }
+
+            if (drop.chanceToDrop <= 0f)
+            {
+                continue;
+            }
+
+            if (drop.chanceToDrop < 100f && Random.Range(0f, 100f) >= drop.chanceToDrop)
+            {
+                continue;
+            }
+
+            float min = Mathf.Max(0f, drop.minItemDrop);
+            float max = Mathf.Max(min, drop.maxItemDrop);
+            int dropCount = Mathf.RoundToInt(Random.Range(min, max));
+
+            for (int i = 0; i < dropCount; i++)
+            {
+                SpawnDrop(drop.itemToDrop, cell);
+            }
+        }
     }
 }

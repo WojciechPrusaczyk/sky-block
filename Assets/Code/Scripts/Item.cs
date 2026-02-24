@@ -1,8 +1,35 @@
+using System;
+using System.Collections.Generic;
+using Unity.Android.Gradle;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewItem", menuName = "SkyBlock/Item", order = 1)]
 public class Item : ScriptableObject
 {
+    /*
+     * Zmienna listowa do określania dropu z bloków
+     */
+    [Serializable]
+    public class BlockDrop
+    {
+        /// <summary>Item to drop.</summary>
+        public GameObject itemToDrop;
+
+        /// <summary>HP needed to be dealt to initiate drop.</summary>
+        public float hpPerDrop;
+
+        /// <summary>Minimal amount to drop per hp dealt.</summary>
+        public float minItemDrop;
+
+        /// <summary>Maximal amount to drop per hp dealt.</summary>
+        public float maxItemDrop;
+
+        /// <summary>Chance to drop per </summary>
+        [Range(0.0f, 100f)]
+        public float chanceToDrop;
+    }
+
+
     [Tooltip("Item name.")]
     public string Name;
 
@@ -33,8 +60,11 @@ public class Item : ScriptableObject
     [Tooltip("GameObject placed in the blocks tileset.")]
     public GameObject BlockGameObject;
 
-    [Tooltip("Item GameObject placed on the world when out of inventory.")]
-    public GameObject ItemGameObject;
+    [Tooltip("Items placed on the world when block is hit.")]
+    public List<BlockDrop> blockDrop = new List<BlockDrop>();
+
+    [Tooltip("Items placed on the world when block is destroyed.")]
+    public List<BlockDrop> blockDestroyedDrop = new List<BlockDrop>();
 
     public virtual void Initialize() {}
 
