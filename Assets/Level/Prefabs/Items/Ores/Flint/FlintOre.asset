@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 930103666e4d69c4499bf4a616ea9c7f, type: 3}
+  m_Name: FlintOre
+  m_EditorClassIdentifier: Assembly-CSharp::Item
+  Name: FlintOre
+  Type: 1
+  toolType: 0
+  maxItems: 64
+  hitDamage: 1
+  blockHealth: 4
+  preferredTool: 2
+  Icon: {fileID: 0}
+  WorldIcon: {fileID: 0}
+  BlockGameObject: {fileID: -2253911629886400664, guid: 22e3fcf9d40f4174085fd4304b8b90db, type: 3}
+  blockDrop:
+  - itemToDrop: {fileID: 759678680201987590, guid: 28ffae3398662be4bbce30eb985dacf1, type: 3}
+    hpPerDrop: 1
+    minItemDrop: 1
+    maxItemDrop: 3
+    chanceToDrop: 100
+  blockDestroyedDrop:
+  - itemToDrop: {fileID: 759678680201987590, guid: 28ffae3398662be4bbce30eb985dacf1, type: 3}
+    hpPerDrop: 0
+    minItemDrop: 0
+    maxItemDrop: 1
+    chanceToDrop: 59.7
